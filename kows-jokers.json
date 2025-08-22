@@ -1,9 +1,9 @@
 {
 	"id": "kow_joker",
-	"name": "Kow's Jokers",
-	"display_name": "Kow's Jokers",
+	"name": "Batro",
+	"display_name": "Batro",
 	"author": ["Koweret"],
-	"description": "A few random jokers that I had the idea for; hopefully balanced enough",
+	"description": "Batro is yet another unbalanced mod for Balatro (YAUMFB)",
 	"prefix": "kwjk",
 	"main_file": "main.lua",
 	"priority": 2952,
@@ -12,4 +12,5 @@
 	"version": "1.0.0",
 	"dependencies": [],
 	"conflicts": []
+
 }
