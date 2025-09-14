@@ -525,7 +525,7 @@ SMODS.Joker{
     rarity = "kwjk_greenrarity",
     cost = 0,
     unlocked = true,
-    discovered = true,
+    discovered = false,
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = false,
@@ -792,4 +792,5 @@ SMODS.Consumable:take_ownership('wheel_of_fortune',
     end,
     },
     true
+
 )
