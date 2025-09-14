@@ -792,5 +792,4 @@ SMODS.Consumable:take_ownership('wheel_of_fortune',
     end,
     },
     true
-
 )
