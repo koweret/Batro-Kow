@@ -6,4 +6,8 @@ Batro is a mod for Balatro made by me, which shoves a bunch of ideas that don't 
 - 1 Tag
 - More to be added!!!
 ## Credits
-See main.lua for credits (credits are above every item)
+Credits are found ingame (or in main.lua);
+Note that credits list all people who contributed, indirectly or not, in order of contribution amount
+## Dependencies
+- [Talisman](https://github.com/SpectralPack/Talisman)
+- [3xCredits](https://github.com/AuroraKy/3xCredits)
