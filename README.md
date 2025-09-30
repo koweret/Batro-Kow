@@ -1,9 +1,11 @@
 # Batro
 Batro is a mod for Balatro made by me, which shoves a bunch of ideas that don't link together into one mod.
 ## Additions
-- 11 Jokers
+- 17 Jokers
 - 2 Editions
 - 1 Tag
+- 1 Tarot
+- 1 Enhancement
 - More to be added!!!
 ## Credits
 Credits are found ingame (or in main.lua);
