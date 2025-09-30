@@ -34,11 +34,19 @@ SMODS.Atlas {
 		prefix_config = { key = false }
 	}
 
+-- contains function
+function listcontains(list, x)
+	for _, v in pairs(list) do
+		if v == x then return true end
+	end
+	return false
+end
+
 
 -- atlases
 SMODS.Atlas {
 	key = 'Jokers',
-	path = 'atlasone.png',
+	path = 'jokers.png',
 	px = 71,
 	py = 95
 }
@@ -47,6 +55,18 @@ SMODS.Atlas {
 	path = 'tags.png',
 	px = 34,
 	py = 34
+}
+SMODS.Atlas {
+	key = 'tarotatlas',
+	path = 'tarots.png',
+	px = 71,
+	py = 95
+}
+SMODS.Atlas {
+	key = 'enhancements',
+	path = 'enhancements.png',
+	px = 71,
+	py = 95
 }
 -- TSPIN sound
 -- Credits:
@@ -80,6 +100,8 @@ SMODS.Joker {
 			'{X:mult,C:white}X2{} Mult'
 		}
 	},
+	unlocked = true,
+	discovered = false,
 	rarity = 2,
 	cost = 4,
 	config = { extra = { xmult = 2 } },
@@ -88,6 +110,11 @@ SMODS.Joker {
 	loc_vars = function(self,info_queue,card)
 		return { vars = { card.ability.extra.xmult } }
 	end,
+	credit = {
+		art = "Kowa",
+		code = "Kowa",
+		concept = "Kowa"
+	},
 	calculate = function(self, card, context)
 		if context.cardarea == G.jokers and context.joker_main and context.scoring_hand then
 			local has_ace = false
@@ -123,6 +150,8 @@ SMODS.Joker {
 			'{X:mult,C:white}X1.777{} Mult' -- i dont know why but smods rounds this if i use locvars
 		}
 	},
+	unlocked = true,
+	discovered = false,
 	rarity = 2,
 	cost = 4,
 	config = { extra = { xmult = 1.777 } },
@@ -131,6 +160,11 @@ SMODS.Joker {
 	loc_vars = function(self,info_queue,card)
 		return { vars = { card.ability.extra.xmult } }
 	end,
+	credit = {
+		art = "Kowa",
+		code = "Kowa",
+		concept = "Kowa"
+	},
 	calculate = function(self, card, context)
 		if context.cardarea == G.jokers and context.joker_main and context.scoring_hand then
 			local num_7s = 0
@@ -166,8 +200,13 @@ SMODS.Joker {
 	loc_vars = function(self,info_queue,card)
 		return { vars = { card.ability.extra.xmult } }
 	end,
+	credit = {
+		art = "Kowa",
+		code = "Kowa",
+		concept = "Kowa"
+	},
 	calculate = function(self, card, context)
-		if context.joker_main then
+		if context.cardarea == G.jokers and context.joker_main then
 			return { mult = pseudorandom('kwjk_robloxtag', card.ability.extra.min, card.ability.extra.max) }
 		end
 	end
@@ -195,14 +234,20 @@ SMODS.Joker {
 	loc_vars = function(self,info_queue,card)
 		return { vars = { card.ability.extra.xmult } }
 	end,
+	credit = {
+		art = "Kowa",
+		code = "Kowa",
+		concept = "Kowa"
+	},
 	calculate = function(self, card, context)
-		if context.joker_main then
+		if context.cardarea == G.jokers and context.joker_main then
 			if context.scoring_name == 'High Card' and #context.full_hand == 5 then
 				return { xmult = card.ability.extra.xmult }
 			end
 		end
 	end
 }
+-- Medkit Phighting
 -- Credits:
 -- Idea: Me
 -- Art : Me & The Phighting Team (i dont actually know who rendered the phighters)
@@ -217,6 +262,8 @@ SMODS.Joker {
 			'{X:clubs,C:white}Clubs{}, {C:chips}+#1#{} Chips per {X:clubs,C:white}Club{}-suit card'
 		}
 	},
+	unlocked = true,
+	discovered = true,
 	rarity = 2,
 	cost = 6,
 	config = { extra = { chips = 60, } },
@@ -225,6 +272,11 @@ SMODS.Joker {
 	loc_vars = function(self,info_queue,card)
 		return { vars = { card.ability.extra.chips } }
 	end,
+	credit = {
+		art = "Kowa & SodaKettle",
+		code = "Kowa",
+		concept = "Kowa"
+	},
 	calculate = function(self, card, context)
 		if context.cardarea == G.jokers and context.joker_main and context.scoring_hand then
 			local num_clubs = 0
@@ -254,6 +306,8 @@ SMODS.Joker {
 			'{X:hearts,C:white}Hearts{}, {C:mult}+#1#{} Mult per {X:hearts,C:white}Heart{}-suit card',
 		}
 	},
+	unlocked = true,
+	discovered = true,
 	rarity = 2,
 	cost = 6,
 	config = { extra = { mult = 6 } },
@@ -262,6 +316,11 @@ SMODS.Joker {
 	loc_vars = function(self,info_queue,card)
 		return { vars = { card.ability.extra.mult } }
 	end,
+	credit = {
+		art = "Kowa & SodaKettle",
+		code = "Kowa",
+		concept = "Kowa"
+	},
 	calculate = function(self, card, context)
 		if context.cardarea == G.jokers and context.scoring_main and context.scoring_hand then
 			local num_hearts = 0
@@ -272,6 +331,50 @@ SMODS.Joker {
 			end
 			if num_hearts >= 3 then
 				return { mult = (card.ability.extra.mult * num_hearts) }
+			end
+		end
+	end
+}
+-- Banhammer Phighting
+-- Credits:
+-- Idea: Me
+-- Art : Me & The Phighting Team (i dont actually know who rendered the phighters)
+-- Code: Me
+SMODS.Joker {
+	key = 'banhammer',
+	loc_txt = {
+		name = 'Banhammer Phighting',
+		text = {
+			'If played hand has atleast',
+			'3 scored cards that are',
+			'{X:spades,C:white}Spades{}, {C:money}+$#1#{} per {X:spades,C:white}Spade{}-suit card'
+		}
+	},
+	unlocked = true,
+	discovered = true,
+	rarity = 2,
+	cost = 6,
+	config = { extra = { dollars = 2, } },
+	atlas = 'Jokers',
+	pos = { x = 0, y = 2 },
+	loc_vars = function(self,info_queue,card)
+		return { vars = { card.ability.extra.dollars } }
+	end,
+	credit = {
+		art = "Kowa & SodaKettle",
+		code = "Kowa",
+		concept = "Kowa"
+	},
+	calculate = function(self, card, context)
+		if context.cardarea == G.jokers and context.joker_main and context.scoring_hand then
+			local num_spades = 0
+			for i = 1, #context.scoring_hand do
+				if context.scoring_hand[i]:is_suit('Clubs') then
+					num_spades = num_spades + 1
+				end
+			end
+			if num_spades >= 3 then
+				return { dollars = (card.ability.extra.dollars * num_spades) }
 			end
 		end
 	end
@@ -303,9 +406,14 @@ SMODS.Joker{
     perishable_compat = true,
     pos = {x=2, y=1},
     config = { extra = {add_mult = 1.5, base_mult = 1.5, hand_type = "Straight"}},
-    loc_vars = function(self, info_queue, center)
-		return { vars = {center.ability.extra.add_mult, center.ability.extra.base_mult, straight_name}}
+    loc_vars = function(self, info_queue, card)
+		return { vars = {card.ability.extra.add_mult, card.ability.extra.base_mult, straight_name}}
 	end,
+	credit = {
+		art = "Kowa & LocalThunk",
+		code = "Kowa",
+		concept = "Kowa"
+	},
     calculate = function(self, card, context)
 		if context.before and not context.blueprint then
 			if not next(context.poker_hands['Straight']) and not next(context.poker_hands['Straight Flush']) then
@@ -322,7 +430,7 @@ SMODS.Joker{
 				}
 			end
         end
-		if context.joker_main then
+		if context.cardarea == G.jokers and context.joker_main then
 			return {
                 mult = card.ability.extra.base_mult
             }
@@ -348,15 +456,20 @@ SMODS.Joker{
     rarity = 2,
     cost = 5,
     unlocked = true,
-    discovered = true,
+	discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
     pos = {x=3, y=1},
     config = { extra = {x_mult = 2, hand_type = "Pair", activate_bonus = false, has_paired_once = false}},
-    loc_vars = function(self, info_queue, center)
-		return { vars = {center.ability.extra.x_mult, pair_name}}
+    loc_vars = function(self, info_queue, card)
+		return { vars = {card.ability.extra.x_mult, pair_name}}
 	end,
+	credit = {
+		art = "Kowa & osk",
+		code = "Kowa",
+		concept = "Kowa"
+	},
     calculate = function(self, card, context)
 		if context.end_of_round then
 			card.ability.extra.activate_bonus = false
@@ -373,7 +486,7 @@ SMODS.Joker{
 				card.ability.extra.has_paired_once = true
 			end
         end
-		if context.joker_main and card.ability.extra.activate_bonus then
+		if context.cardarea == G.jokers and context.joker_main and card.ability.extra.activate_bonus then
 			card.ability.extra.activate_bonus = false
 			card.ability.extra.has_paired_once = false
 			return {
@@ -407,15 +520,20 @@ SMODS.Joker{
     rarity = 2,
     cost = 6,
     unlocked = true,
-    discovered = true,
+	discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
     pos = {x=3, y=2},
     config = { extra = {x_mult = 3, hand_type_a = "Pair", hand_type_b = "Three of a Kind", activate_bonus = false, has_paired_once = false}},
-    loc_vars = function(self, info_queue, center)
-		return { vars = {center.ability.extra.x_mult, pair_name, toak_name}}
+    loc_vars = function(self, info_queue, card)
+		return { vars = {card.ability.extra.x_mult, pair_name, toak_name}}
 	end,
+	credit = {
+		art = "Kowa & osk",
+		code = "Kowa",
+		concept = "Kowa"
+	},
     calculate = function(self, card, context)
 		if context.end_of_round then
 			card.ability.extra.activate_bonus = false
@@ -434,7 +552,7 @@ SMODS.Joker{
 			
 			
         end
-		if context.joker_main and card.ability.extra.activate_bonus then
+		if context.cardarea == G.jokers and context.joker_main and card.ability.extra.activate_bonus then
 			card.ability.extra.activate_bonus = false
 			card.ability.extra.has_paired_once = false
 			return {
@@ -466,16 +584,22 @@ SMODS.Joker{
     atlas = 'Jokers',
     rarity = 4,
     cost = 25,
-    unlocked = false,
+    unlocked = true,
+	discovered = false,
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = false,
     pos = {x=2, y=2},
 	soul_pos = {x=3, y=0},
     config = { extra = {x_mult = 4}},
-    loc_vars = function(self, info_queue, center)
-		return { vars = {center.ability.extra.x_mult, colours = {HEX('000000'), HEX('FFFFFF'),}}}
+    loc_vars = function(self, info_queue, card)
+		return { vars = {card.ability.extra.x_mult, colours = {HEX('000000'), HEX('FFFFFF'),}}}
 	end,
+	credit = {
+		art = "Kowa & GeminiEntropic",
+		code = "Kowa",
+		concept = "GeminiEntropic"
+	},
     calculate = function(self, card, context)
 		if context.cardarea == G.jokers and context.joker_main and context.scoring_hand then
 			local num_spubs = 0
@@ -525,16 +649,21 @@ SMODS.Joker{
     rarity = "kwjk_greenrarity",
     cost = 0,
     unlocked = true,
-    discovered = false,
+	discovered = false,
     blueprint_compat = false,
     eternal_compat = true,
     perishable_compat = false,
     hidden = true,
     pos = {x=2, y= 0},
     config = { extra = {round = 0, maxround = 2}},
-    loc_vars = function(self, info_queue, center)
-		return { vars = {center.ability.extra.round, center.ability.extra.maxround}}
+    loc_vars = function(self, info_queue, card)
+		return { vars = {card.ability.extra.round, card.ability.extra.maxround}}
 	end,
+	credit = {
+		art = "Kowa",
+		code = "Kowa & Yahiamice",
+		concept = "Kowa"
+	},
 	add_to_deck = function(self, card, from_debuff)
 		SMODS.calculate_effect({ message = 'GREEN', colour = HEX('00FF00'), sound = 'kwjk_greensound', }, card)
 	end,
@@ -577,6 +706,11 @@ SMODS.Edition{
             "does..... something?",
         }
     },
+	credit = {
+		art = "Yahimod",
+		code = "Yahiamice & Kowa",
+		concept = "Kowa"
+	},
 	weight = 10,
 	shader = "greenedition",
 	in_shop = true,
@@ -667,6 +801,11 @@ SMODS.Edition{
 	loc_vars = function(self, info_queue)
 		return { vars = { self.config.x_chips } }
 	end,
+	credit = {
+		art = "Yahimod",
+		code = "Yaiamice & Kowa",
+		concept = "Kowa"
+	},
 	calculate = function(self, card, context)
 		if
 			(
@@ -710,6 +849,11 @@ SMODS.Tag {
     loc_vars = function(self, info_queue, tag)
         info_queue[#info_queue + 1] = G.P_CENTERS.e_kwjk_oceanic
     end,
+	credit = {
+		art = "Kowa",
+		code = "Kowa",
+		concept = "Kowa"
+	},
     apply = function(self, tag, context)
         if context.type == 'store_joker_modify' then
             if not context.card.edition and not context.card.temp_edition and context.card.ability.set == 'Joker' then
@@ -793,3 +937,364 @@ SMODS.Consumable:take_ownership('wheel_of_fortune',
     },
     true
 )
+
+-- Unis Reversis
+-- Credits:
+-- Idea: Me
+-- Art : Me
+-- Code: Me
+SMODS.Joker{
+    key = 'unisreversis',
+    loc_txt = {
+        name = 'Unis Reversis',
+        text = {
+			"Swaps {C:chips}Chips{} and {C:mult}Mult{} score",
+			"{C:inactive}(Placement matters){}"
+		},
+	},
+    atlas = 'Jokers',
+    rarity = 3,
+    cost = 9,
+    unlocked = true,
+	discovered = false,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x=0, y=3},
+    config = {},
+    loc_vars = function(self, info_queue, card)
+		return {}
+	end,
+	credit = {
+		art = "Kowa",
+		code = "Kowa",
+		concept = "Kowa"
+	},
+    calculate = function(self, card, context)
+		if context.cardarea == G.jokers and context.joker_main then
+			local current_mult = mult
+            mult = mod_mult(hand_chips)
+            hand_chips = mod_chips(current_mult)
+
+            return {
+                message = "Reverse!",
+				colour = HEX('C429FE'),
+				sound = "gong"
+            }
+		end
+    end
+}
+-- President
+-- Credits:
+-- Idea: Me
+-- Art : Me
+-- Code: Me
+SMODS.Joker{
+    key = 'president',
+    loc_txt = {
+        name = 'President',
+        text = {
+			"{B:1,C:white}^#1# Mult{} and {B:2,C:white}^#2# Chips{} for each",
+			"{C:attention}Jack{} held in hand"
+		},
+	},
+    atlas = 'Jokers',
+    rarity = 3,
+    cost = 11,
+    unlocked = true,
+	discovered = false,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    pos = {x=1, y=3},
+    config = { extra = { emult = 1.05, echips = 1.05}},
+    loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.extra.emult, card.ability.extra.echips, colours = {HEX('AD433B'), HEX('306B90')} } }
+	end,
+	credit = {
+		art = "Kowa",
+		code = "Kowa",
+		concept = "Kowa"
+	},
+    calculate = function(self, card, context)
+		if context.individual and context.cardarea == G.hand and not context.end_of_round and context.other_card:get_id() == 11 then
+            if context.other_card.debuff then
+                return {
+                    message = localize('k_debuffed'),
+                    colour = G.C.RED
+                }
+            else
+                return {
+                    e_mult = card.ability.extra.emult,
+					extra = {
+						e_chips = card.ability.extra.echips
+					}
+                }
+            end
+        end
+    end
+}
+
+-- KOWA
+-- Credits:
+-- Idea: Me
+-- Art : Me & LocalThunk
+-- Code: Me
+SMODS.Joker{
+    key = 'kowa',
+    loc_txt = {
+        name = 'Kowa',
+        text = {
+			"{B:1,C:white}^^#1# Mult{} for each",
+			"{C:hearts}Heart{} held in hand"
+		},
+	},
+    atlas = 'Jokers',
+    rarity = 4,
+    cost = 40,
+    unlocked = true,
+	discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = false,
+    pos = {x=2, y=3},
+	soul_pos = {x=3, y=3},
+    config = { extra = { hyper_arrows = 2, hyper_mult = 1.01}},
+    loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.extra.hyper_mult, colours = {HEX('834742')} } }
+	end,
+	credit = {
+		art = "Kowa, LocalThunk",
+		code = "Kowa",
+		concept = "Kowa"
+	},
+    calculate = function(self, card, context)
+		if context.individual and context.cardarea == G.hand and not context.end_of_round and context.other_card:is_suit('Hearts') then
+            if context.other_card.debuff then
+                return {
+                    message = localize('k_debuffed'),
+                    colour = G.C.RED
+                }
+            else
+                return {
+                    hypermult = {
+						card.ability.extra.hyper_arrows,
+						card.ability.extra.hyper_mult
+					}
+				}
+            end
+        end
+    end
+}
+
+-- Oops! All Oops! All Oops! All
+-- Credits:
+-- Idea: Me
+-- Art : LocalThunk
+-- Code: Me
+SMODS.Joker {
+    key = "oopsalloopsall",
+	loc_txt = {
+        name = 'Oops! All Oops! All Oops! All',
+        text = {
+			"All {C:green}probabilities{} are",
+			"{C:attention}guaranteed{} to hit"
+		},
+	},
+	credit = {
+		art = "LocalThunk, Kowa",
+		code = "Kowa",
+		concept = "Kowa"
+	},
+	atlas = "Jokers",
+    unlocked = true,
+	discovered = true,
+    blueprint_compat = false,
+    rarity = 3,
+    cost = 7,
+    pos = {x=4, y=0},
+    calculate = function(self, card, context)
+        if context.mod_probability and not context.blueprint then
+            return {
+                numerator = context.denominator
+            }
+        end
+    end,
+}
+
+-- Prideful
+-- Idea: Me
+-- Art: Me
+-- Code: Me
+SMODS.Enhancement {
+    key = 'prideful',
+	loc_txt = {
+        name = 'Prideful',
+        text = {
+			"For each extra {C:attention}suit{}",
+			"played, {X:mult,C:white}X1.5{} Mult",
+		},
+	},
+	atlas = "enhancements",
+    pos = { x = 0, y = 0 },
+    config = { extra = { xmult = 1.5 } },
+    loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.extra.xmult } }
+    end,
+	credit = {
+		art = "Kowa",
+		code = "Kowa",
+		concept = "Kowa"
+	},
+    calculate = function(self, card, context)
+		if context.main_scoring and context.cardarea == G.play then
+			
+			card.ability.extra.xmult = 1 -- to do: check if this actually works
+			local clubs_played = false
+			local heart_played = false
+			local spade_played = false
+			local diamo_played = false
+			for _,playing_card in ipairs(context.scoring_hand) do
+                if playing_card:is_suit('Clubs', nil, true) and not card:is_suit('Clubs', nil, true) and not clubs_played then
+					card.ability.extra.xmult = card.ability.extra.xmult * 1.5
+					clubs_played = true
+				end
+				if playing_card:is_suit('Spades', nil, true) and not card:is_suit('Spades', nil, true) and not spade_played then
+					card.ability.extra.xmult = card.ability.extra.xmult * 1.5
+					spade_played = true
+				end
+				if playing_card:is_suit('Hearts', nil, true) and not card:is_suit('Hearts', nil, true) and not heart_played then
+					card.ability.extra.xmult = card.ability.extra.xmult * 1.5
+					heart_played = true
+				end
+				if playing_card:is_suit('Diamonds', nil, true) and not card:is_suit('Diamonds', nil, true) and not diamo_played then
+					card.ability.extra.xmult = card.ability.extra.xmult * 1.5
+					diamo_played = true
+                end
+            end
+			return { xmult = (card.ability.extra.xmult) }
+        end
+	end
+}
+-- Pride
+-- Idea: Me
+-- Art: Me
+-- Code: Me
+SMODS.Consumable{
+    key = "pride",
+	loc_txt = {
+		name = 'Pride',
+        text = {
+			"Enhances {C:attention}2{} selected",
+			"cards into {C:attention}Pride Cards{}"
+		},
+	},
+    set = "Tarot",
+	atlas = "tarotatlas",
+    pos = { x = 0, y = 0 },
+    config = { max_highlighted = 2, mod_conv = "m_kwjk_prideful" },
+    loc_vars = function(self, info_queue, card)
+        info_queue[#info_queue + 1] = G.P_CENTERS[card.ability.mod_conv]
+        return { vars = { card.ability.max_highlighted, localize { type = "name_text", set = "Enhanced", key = card.ability.mod_conv } } }
+    end,
+	credit = {
+		art = "Kowa",
+		code = "Kowa",
+		concept = "Kowa"
+	}
+}
+-- Burnt the Water
+-- Idea: Me
+-- Art: Me
+-- Code: Jevonn (Part of Cryptid Mod Team) (and very slightly me)
+SMODS.Joker{
+	key = "burntwater",
+	loc_txt = {
+		name = 'Burnt the Water',
+        text = {
+			"Other {C:kwjk_oceanicgradient}Oceanic{} cards each give {X:mult,C:white}X#1#{} Mult",
+		},
+	},
+	atlas = "Jokers",
+	pos = { x = 4, y = 1 },
+	config = { extra = { xmult = 1.75 } },
+	loc_vars = function(self, info_queue, center)
+		if not center.edition or (center.edition and not center.edition.kwjk_oceanic) then
+			info_queue[#info_queue + 1] = G.P_CENTERS.e_kwjk_oceanic
+		end
+		return { vars = { center.ability.extra.xmult } }
+	end,
+	credit = {
+		art = "Kowa",
+		code = "Jevonn, Kowa",
+		concept = "Kowa"
+	},
+	set_ability = function(self, card, initial, delay_sprites)
+		card:set_edition("e_kwjk_oceanic", true, true) -- makes sure it's always oceanic
+	end,
+	rarity = 1,
+	cost = 1,
+	blueprint_compat = true,
+	demicoloncompat = true,
+	calculate = function(self, card, context) -- tbh i have no damn idea how to code this myself (thank you gpl3.0 license)
+		if
+			context.other_joker
+			and context.other_joker.edition
+			and context.other_joker.edition.kwjk_oceanic == true
+			and card ~= context.other_joker
+		then
+			if not Talisman.config_file.disable_anims then
+				G.E_MANAGER:add_event(Event({
+					func = function()
+						context.other_joker:juice_up(0.5, 0.5)
+						return true
+					end,
+				}))
+			end
+			return {
+				message = localize({
+					type = "variable",
+					key = "a_xmult",
+					vars = { number_format(card.ability.extra.xmult) },
+				}),
+				xmult = lenient_bignum(card.ability.extra.xmult),
+			}
+		end
+		if context.individual and context.cardarea == G.play then
+			if context.other_card.edition and context.other_card.edition.kwjk_oceanic == true then
+				return {
+					xmult = lenient_bignum(card.ability.extra.xmult),
+					colour = G.C.MULT,
+					card = card,
+				}
+			end
+		end
+		if
+			context.individual
+			and context.cardarea == G.hand
+			and context.other_card.edition
+			and context.other_card.edition.kwjk_oceanic == true
+			and not context.end_of_round
+		then
+			if context.other_card.debuff then
+				return {
+					message = localize("k_debuffed"),
+					colour = G.C.RED,
+					card = card,
+				}
+			else
+				return {
+					h_x_mult = lenient_bignum(card.ability.extra.xmult),
+					card = card,
+				}
+			end
+		end
+		if context.forcetrigger then
+			return {
+				xmult = lenient_bignum(card.ability.extra.xmult),
+				colour = G.C.MULT,
+				card = card,
+			}
+		end
+	end
+}
